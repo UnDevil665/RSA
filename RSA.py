@@ -1,4 +1,3 @@
-from hashlib import md5
 from random import getrandbits, randint
 
 def rmspp(number, attempts=28):
@@ -78,7 +77,7 @@ def keys(bits):
         d = mmi(e, phi)
         if d:  # if not, the process will repeat
             break
-    return (n, e), (n, d)
+    return e, n, d
 
 
 def mmi(a, m):
