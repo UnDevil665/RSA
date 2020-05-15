@@ -3,6 +3,7 @@ from PyQt5 import QtWidgets, QtCore
 from Form1 import Ui_MainWindow
 import sys
 
+
 class MyWindow(QtWidgets.QMainWindow):
     def __init__(self):
         super(MyWindow, self).__init__()
@@ -16,7 +17,19 @@ class MyWindow(QtWidgets.QMainWindow):
         self.ui.decrypt_Button.clicked.connect(self.decrypt_Btn_Clicked)
 
     def generate_Btn_Clicked(self):
+        self.ui.e_LineEdit2.clear()
+        self.ui.n_LineEdit2.clear()
+        self.ui.r_LineEdit.clear()
+        self.ui.r_LineEdit2.clear()
+        self.ui.cipher_LineEdit.clear()
+
+        self.ui.e_LineEdit2.setEnabled(False)
+        self.ui.n_LineEdit2.setEnabled(False)
+        self.ui.r_LineEdit.setEnabled(False)
+        self.ui.r_LineEdit2.setEnabled(False)
+        self.ui.cipher_LineEdit.setEnabled(False)
         self.ui.send_r_Button.setEnabled(False)
+
         self.e, self.n, self.d = keys(64)
         self.ui.e_LineEdit.setEnabled(True)
         self.ui.n_LineEdit.setEnabled(True)
@@ -43,14 +56,24 @@ class MyWindow(QtWidgets.QMainWindow):
 
     def send_r_Btn_Clicked(self):
         self.ui.help_LineEdit.hide()
-        if int(self.ui.r_LineEdit.text()) < self.n:
-            self.ui.send_r_Button.setEnabled(False)
-            self.ui.decrypt_Button.setEnabled(True)
-            self.ui.cipher_LineEdit.setEnabled(True)
 
-            self.ui.cipher_LineEdit.setText(str(pow(int(self.ui.r_LineEdit.text()), self.e, self.n)))
+        if self.ui.r_LineEdit.text().isdigit():
+            if self.ui.r_LineEdit.text().isdecimal():
+                if int(self.ui.r_LineEdit.text()) <= self.n - 1:
+                    self.ui.send_r_Button.setEnabled(False)
+                    self.ui.decrypt_Button.setEnabled(True)
+                    self.ui.cipher_LineEdit.setEnabled(True)
+
+                    self.ui.cipher_LineEdit.setText(str(pow(int(self.ui.r_LineEdit.text()), self.e, self.n)))
+                else:
+                    self.ui.help_LineEdit.show()
+                    self.ui.help_LineEdit.setText("Число не должно быть больше n")
+            else:
+                self.ui.help_LineEdit.show()
+                self.ui.help_LineEdit.setText("Введите целое число")
         else:
             self.ui.help_LineEdit.show()
+            self.ui.help_LineEdit.setText("Введите целое число не больше n")
 
     def decrypt_Btn_Clicked(self):
         self.ui.send_r_Button.setEnabled(True)

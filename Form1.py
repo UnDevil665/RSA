@@ -174,4 +174,3 @@ class Ui_MainWindow(object):
         self.cihper_Label.setText(_translate("MainWindow", "Cipher"))
         self.decrypt_Button.setText(_translate("MainWindow", "Decrypt"))
         self.r_Label2.setText(_translate("MainWindow", "r"))
-        self.help_LineEdit.setText(_translate("MainWindow", "Число не должно быть больше n"))
